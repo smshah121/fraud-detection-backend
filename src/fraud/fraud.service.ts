@@ -94,4 +94,23 @@ export class FraudService {
   findAll() {
     return this.fraudRepository.find();
   }
+
+
+  async getStats() {
+  const total = await this.fraudRepository.count();
+
+  const fraud = await this.fraudRepository.count({
+    where: { result: 'FRAUD' },
+  });
+
+  const safe = await this.fraudRepository.count({
+    where: { result: 'SAFE' },
+  });
+
+  return {
+    total,
+    fraud,
+    safe,
+  };
+}
 }

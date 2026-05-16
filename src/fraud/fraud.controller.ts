@@ -16,4 +16,9 @@ export class FraudController {
 findAll() {
   return this.fraudService.findAll();
 }
+
+@Get('stats')
+async getStats() {
+  return this.fraudService.getStats();
+}
 }
