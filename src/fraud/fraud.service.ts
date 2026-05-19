@@ -20,13 +20,11 @@ export class FraudService {
     private fraudRepository: Repository<FraudEntity>,
   ) {}
 
-  /**
-   * Convert human input → ML 30-feature vector
-   */
+
   private buildFeatures(data: FraudInputDto): number[] {
   const features = Array(30).fill(0);
 
-  // normalized values
+
   features[0] = data.time / 24;
   features[1] = data.amount / 10000;
 
@@ -38,15 +36,13 @@ export class FraudService {
   return features;
 }
 
-  /**
-   * Main fraud detection function
-   */
+
   async detectFraud(data: FraudInputDto) {
     try {
-      // 1. Convert input → ML features
+  
       const features = this.buildFeatures(data);
 
-      // 2. Call Python ML API
+   
       const response = await axios.post<MLResponse>(
         this.ML_API_URL,
         { features },
@@ -54,12 +50,10 @@ export class FraudService {
 
       const ml = response.data;
 
-      // 3. Validate ML response
       if (!ml || typeof ml.result === 'undefined') {
         throw new Error('Invalid ML response from Python API');
       }
 
-      // 4. Save to database
       const saved = await this.fraudRepository.save({
         amount: data.amount,
         name: data.name,
@@ -69,7 +63,7 @@ export class FraudService {
         confidence: ml.confidence ?? 0,
       });
 
-      // 5. Return final response to frontend
+
       return {
         success: true,
         id: saved.id,
@@ -94,9 +88,7 @@ export class FraudService {
     }
   }
 
-  /**
-   * Get all fraud logs
-   */
+
   findAll() {
     return this.fraudRepository.find({
       order: { createdAt: 'DESC' },

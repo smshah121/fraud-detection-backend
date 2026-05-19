@@ -15,7 +15,7 @@ export class FraudEntity {
 
 
   @Column({ type: 'varchar', length: 20 })
-cnic!: string;
+  cnic!: string;
 
   @Column({ nullable: true })
   transactionId!: string;
@@ -26,11 +26,11 @@ cnic!: string;
   @Column('jsonb')
   features!: number[];
 
- @Column({ nullable: false })
-result!: string;
+  @Column({ nullable: false })
+  result!: string;
 
-@Column({ type: 'float', nullable: false })
-confidence!: number;
+  @Column({ type: 'float', nullable: false })
+  confidence!: number;
 
   @CreateDateColumn()
   createdAt!: Date;
