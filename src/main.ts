@@ -1,8 +1,16 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
+import { ValidationPipe } from '@nestjs/common';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  app.useGlobalPipes(
+    new ValidationPipe({
+      whitelist: true, // removes extra fields
+      forbidNonWhitelisted: true, // throws error for unknown fields
+      transform: true, // auto converts types (string → number)
+    }),
+  );
 
   app.enableCors({
     origin: '*',

@@ -10,10 +10,17 @@ export class FraudEntity {
   @PrimaryGeneratedColumn()
   id!: number;
 
+   @Column()
+  name!: string;
+
+
+  @Column({ type: 'varchar', length: 20 })
+cnic!: string;
+
   @Column({ nullable: true })
   transactionId!: string;
 
-  @Column('float', { nullable: true })
+  @Column()
   amount!: number;
 
   @Column('jsonb')

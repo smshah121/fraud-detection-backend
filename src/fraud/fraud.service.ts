@@ -61,6 +61,9 @@ export class FraudService {
 
       // 4. Save to database
       const saved = await this.fraudRepository.save({
+        amount: data.amount,
+        name: data.name,
+  cnic: data.cnic,
         features,
         result: ml.result ?? 'UNKNOWN',
         confidence: ml.confidence ?? 0,
@@ -70,6 +73,9 @@ export class FraudService {
       return {
         success: true,
         id: saved.id,
+         name: saved.name,
+         amount: saved.amount,
+  cnic: saved.cnic,
         result: ml.result,
         fraud: ml.fraud,
         confidence: ml.confidence,
@@ -92,7 +98,10 @@ export class FraudService {
    * Get all fraud logs
    */
   findAll() {
-    return this.fraudRepository.find();
+    return this.fraudRepository.find({
+      order: { createdAt: 'DESC' },
+
+    });
   }
 
 
